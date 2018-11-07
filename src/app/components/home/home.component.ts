@@ -9,7 +9,9 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 export class HomeComponent implements OnInit {
 
   artistas: any[] = []
-  loading:boolean
+  loading:boolean;
+  error = false;
+  mensajeError: string;
 
   constructor( private spotiy: SpotifyService ) {
     this.loading = true
@@ -17,6 +19,11 @@ export class HomeComponent implements OnInit {
         .subscribe( (data:any) => {
           this.artistas = data;
           this.loading = false
+        }, (errorServicio) => {
+          console.log(errorServicio)
+          this.loading = false
+          this.error = true
+          this.mensajeError = errorServicio.error.error.message;
         });
   }
 
